@@ -1,0 +1,22 @@
+{
+  "releases": [
+    {
+      "id": "2026-04-01-example",
+      "title": "Example April 2026 release",
+      "source": "example-file",
+      "publishedAt": "2026-04-01T08:00:00Z",
+      "url": "https://example.com/releases/2026-04-01-example",
+      "items": [
+        {
+          "country": "Norge",
+          "articleNumber": "20162402",
+          "producer": "Example Brewery",
+          "name": "Example Imperial Stout",
+          "style": "Imperial Stout",
+          "abv": 12,
+          "releaseDate": "1. april 2026"
+        }
+      ]
+    }
+  ]
+}

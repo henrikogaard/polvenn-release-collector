@@ -1,0 +1,22 @@
+[Unit]
+Description=Polvenn Release Collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=polvenn
+Group=polvenn
+WorkingDirectory=/opt/polvenn-release-collector
+EnvironmentFile=/etc/polvenn-release-collector.env
+ExecStart=/usr/bin/node /opt/polvenn-release-collector/dist/index.js
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/polvenn-release-collector
+
+[Install]
+WantedBy=multi-user.target

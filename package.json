@@ -1,0 +1,56 @@
+{
+  "name": "@henrikogard/polvenn-release-collector",
+  "version": "0.1.0",
+  "description": "Collector and feed API for external beer release sources used by Polvenn",
+  "author": "Henrik",
+  "type": "module",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henrikogaard/polvenn-release-collector.git"
+  },
+  "homepage": "https://github.com/henrikogaard/polvenn-release-collector#readme",
+  "bugs": {
+    "url": "https://github.com/henrikogaard/polvenn-release-collector/issues"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "README.md",
+    "LICENSE",
+    "example-releases.json",
+    "polvenn-release-collector.config.example.json"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "test": "npm run build && node --test dist/http/*.test.js dist/sources/*.test.js dist/services/*.test.js",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "collector",
+    "release-feed",
+    "mcp",
+    "vinmonopolet",
+    "beer",
+    "polvenn",
+    "sqlite"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "sql.js": "^1.11.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

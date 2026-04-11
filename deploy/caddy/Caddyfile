@@ -1,0 +1,20 @@
+beer.ogard.cloud {
+  encode zstd gzip
+
+  @admin {
+    path /sources /collect
+  }
+
+  reverse_proxy 127.0.0.1:4100
+
+  header {
+    X-Content-Type-Options nosniff
+    Referrer-Policy no-referrer
+    -Server
+  }
+
+  log {
+    output file /var/log/caddy/polvenn-release-collector.log
+    format json
+  }
+}

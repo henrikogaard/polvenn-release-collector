@@ -1,0 +1,90 @@
+{
+  "settings": {
+    "webhook": {
+      "enabled": false,
+      "url": "env:POLVENN_COLLECTOR_WEBHOOK_URL",
+      "format": "generic"
+    }
+  },
+  "sources": [
+    {
+      "id": "example-file",
+      "name": "Example local release file",
+      "type": "file_json",
+      "enabled": false,
+      "intervalMinutes": 60,
+      "path": "./example-releases.json"
+    },
+    {
+      "id": "example-http",
+      "name": "Example remote release endpoint",
+      "type": "http_json",
+      "enabled": false,
+      "intervalMinutes": 60,
+      "url": "https://example.com/releases.json"
+    },
+    {
+      "id": "example-rss",
+      "name": "Example RSS feed",
+      "type": "rss_feed",
+      "enabled": false,
+      "intervalMinutes": 360,
+      "url": "https://example.com/feed.xml",
+      "maxItems": 20
+    },
+    {
+      "id": "example-csv",
+      "name": "Example CSV import",
+      "type": "csv_import",
+      "enabled": false,
+      "intervalMinutes": 1440,
+      "path": "./releases.csv",
+      "delimiter": ",",
+      "releaseId": "csv-release-2026-04",
+      "releaseTitle": "CSV release April 2026",
+      "publishedAt": "2026-04-01T00:00:00Z"
+    },
+    {
+      "id": "example-manual",
+      "name": "Example manual import",
+      "type": "manual_import",
+      "enabled": false,
+      "releases": [
+        {
+          "id": "manual-release-2026-04",
+          "title": "Manual release April 2026",
+          "source": "Manual import",
+          "publishedAt": "2026-04-01T00:00:00Z",
+          "url": null,
+          "items": [
+            {
+              "country": "Norge",
+              "articleNumber": "12345602",
+              "producer": "Example Brewery",
+              "name": "Example Beer",
+              "style": "IPA",
+              "abv": 6.5,
+              "releaseDate": "2026-04-02"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "olbloggen-monthly",
+      "name": "Ølbloggen monthly Vinmonopolet releases",
+      "type": "olbloggen_vinmonopolet",
+      "enabled": false,
+      "intervalMinutes": 43200,
+      "scheduleWindow": {
+        "mode": "monthly_window",
+        "startDay": 25,
+        "endDay": 5
+      },
+      "listingUrl": "https://www.olbloggen.no/category/vinmonopolet-nyheter/",
+      "maxPages": 1,
+      "maxArticles": 6,
+      "titlePrefix": "Ølnyheter på Vinmonopolet"
+    }
+  ]
+}
