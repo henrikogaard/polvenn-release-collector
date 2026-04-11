@@ -10,6 +10,13 @@ test("parseListingPage extracts release article URLs from the category page", ()
     <main>
       <article>
         <h2 class="entry-title">
+          <a href="/vinmonopolet-nyheter/olnyheter-vinmonopolet-1-april-2026/">
+            Ølnyheter Vinmonopolet 1. april 2026
+          </a>
+        </h2>
+      </article>
+      <article>
+        <h2 class="entry-title">
           <a href="/vinmonopolet-nyheter/olnyheter-pa-vinmonopolet-5-november-2025/">
             Ølnyheter på Vinmonopolet 5. november 2025
           </a>
@@ -30,6 +37,10 @@ test("parseListingPage extracts release article URLs from the category page", ()
   });
 
   assert.deepEqual(entries, [
+    {
+      title: "Ølnyheter Vinmonopolet 1. april 2026",
+      url: "https://www.olbloggen.no/vinmonopolet-nyheter/olnyheter-vinmonopolet-1-april-2026/",
+    },
     {
       title: "Ølnyheter på Vinmonopolet 5. november 2025",
       url: "https://www.olbloggen.no/vinmonopolet-nyheter/olnyheter-pa-vinmonopolet-5-november-2025/",
@@ -90,4 +101,46 @@ test("parseArticlePage converts a release article into normalized items", () => 
       releaseDate: "2025-11-05",
     },
   ]);
+});
+
+test("parseArticlePage uses release date from title variants without 'på'", () => {
+  const html = `
+    <article>
+      <h1 class="entry-title">Ølnyheter Vinmonopolet 1. april 2026</h1>
+      <div class="entry-meta">
+        <span class="published">31. mars 2026</span>
+      </div>
+      <div class="entry-content">
+        <table>
+          <tbody>
+            <tr>
+              <td>Land</td>
+              <td>Artikkel</td>
+              <td>Produsent</td>
+              <td>Navn</td>
+              <td>Stil</td>
+              <td>ABV</td>
+            </tr>
+            <tr>
+              <td>Norge</td>
+              <td>20273702</td>
+              <td>Salikatt Bryggeri</td>
+              <td>Skyhook</td>
+              <td>IPA</td>
+              <td>7,5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  `;
+
+  const release = parseArticlePage(
+    html,
+    "https://www.olbloggen.no/vinmonopolet-nyheter/olnyheter-vinmonopolet-1-april-2026/",
+  );
+
+  assert.equal(release.title, "Ølnyheter Vinmonopolet 1. april 2026");
+  assert.equal(release.publishedAt, "2026-04-01T00:00:00Z");
+  assert.equal(release.items[0]?.releaseDate, "2026-04-01");
 });

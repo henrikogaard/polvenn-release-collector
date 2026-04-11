@@ -59,6 +59,39 @@ function parseNorwegianDate(value: string): string | null {
   return `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T00:00:00Z`;
 }
 
+function buildTitlePrefixVariants(titlePrefix: string): string[] {
+  const normalized = normalizeWhitespace(titlePrefix);
+  const withoutPa = normalizeWhitespace(normalized.replace(/\spå\s/gi, " "));
+
+  return Array.from(new Set([normalized, withoutPa]));
+}
+
+function isMatchingReleaseTitle(title: string, titlePrefix: string): boolean {
+  const normalizedTitle = normalizeWhitespace(title).toLowerCase();
+  return buildTitlePrefixVariants(titlePrefix).some((variant) =>
+    normalizedTitle.startsWith(variant.toLowerCase()),
+  );
+}
+
+function extractReleaseDateFromTitle(title: string, titlePrefix: string): string | null {
+  const normalizedTitle = normalizeWhitespace(title);
+
+  for (const variant of buildTitlePrefixVariants(titlePrefix)) {
+    if (!normalizedTitle.toLowerCase().startsWith(variant.toLowerCase())) {
+      continue;
+    }
+
+    const remainder = normalizeWhitespace(normalizedTitle.slice(variant.length));
+    const parsed = parseNorwegianDate(remainder);
+    if (parsed) {
+      return parsed;
+    }
+  }
+
+  const trailingDate = normalizedTitle.match(/(\d{1,2}\.\s*[a-zæøå]+\s*\d{4})$/i)?.[1];
+  return trailingDate ? parseNorwegianDate(trailingDate) : null;
+}
+
 function isoDateOnly(isoTimestamp: string): string {
   return isoTimestamp.slice(0, 10);
 }
@@ -103,7 +136,7 @@ export function parseListingPage(
   $("article .entry-title a").each((_, element) => {
     const title = normalizeWhitespace($(element).text());
     const href = $(element).attr("href");
-    if (!href || !title.startsWith(titlePrefix)) {
+    if (!href || !isMatchingReleaseTitle(title, titlePrefix)) {
       return;
     }
 
@@ -171,7 +204,7 @@ export function parseArticlePage(
     throw new Error(`Could not find article title for ${articleUrl}`);
   }
 
-  const titleReleaseDate = parseNorwegianDate(title.replace(`${titlePrefix} `, ""));
+  const titleReleaseDate = extractReleaseDateFromTitle(title, titlePrefix);
   const publishedMeta = normalizeWhitespace($(".entry-meta .published").first().text());
   const publishedAt = titleReleaseDate ?? parseNorwegianDate(publishedMeta);
   if (!publishedAt) {
