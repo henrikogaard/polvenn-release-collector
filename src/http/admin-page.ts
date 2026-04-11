@@ -364,7 +364,7 @@ function renderSourceSpecificFields(config: SourceConfig): string {
           name: "listingUrl",
           value: values.listingUrl,
           type: "url",
-          placeholder: "https://www.olbloggen.no/category/vinmonopolet-nyheter/",
+          placeholder: "https://example.com/releases/",
           required: true,
         }),
         renderField({
@@ -561,17 +561,17 @@ function renderNewSourceForm(): string {
           </form>
         </details>
         <details class="editor">
-          <summary>Add Ølbloggen monthly source</summary>
+          <summary>Add monthly article source</summary>
           <form method="post" action="/admin/sources/save" class="editor-form">
             <input type="hidden" name="type" value="olbloggen_vinmonopolet" />
-            ${renderField({ label: "ID", name: "id", value: "olbloggen-monthly", required: true })}
-            ${renderField({ label: "Name", name: "name", value: "Ølbloggen monthly Vinmonopolet releases", required: true })}
+            ${renderField({ label: "ID", name: "id", value: "monthly-article-source", required: true })}
+            ${renderField({ label: "Name", name: "name", value: "Monthly article release source", required: true })}
             ${renderScheduleEditor({ intervalMinutes: 43200, scheduleWindowMode: "monthly_window", scheduleStartDay: "25", scheduleEndDay: "5" })}
             <label class="checkbox"><input type="checkbox" name="enabled" checked /><span>Enabled</span></label>
-            ${renderField({ label: "Listing URL", name: "listingUrl", value: "https://www.olbloggen.no/category/vinmonopolet-nyheter/", type: "url", required: true })}
+            ${renderField({ label: "Listing URL", name: "listingUrl", value: "https://example.com/releases/", type: "url", required: true })}
             ${renderField({ label: "Max pages", name: "maxPages", value: 1, type: "number" })}
             ${renderField({ label: "Max articles", name: "maxArticles", value: 6, type: "number" })}
-            ${renderField({ label: "Title prefix", name: "titlePrefix", value: "Ølnyheter på Vinmonopolet" })}
+            ${renderField({ label: "Title prefix", name: "titlePrefix", value: "Monthly release roundup" })}
             <div class="form-actions"><button type="submit">Create Source</button></div>
           </form>
         </details>

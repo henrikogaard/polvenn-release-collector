@@ -85,9 +85,9 @@ Recommended first source:
   },
   "sources": [
     {
-      "id": "olbloggen-monthly",
-      "name": "Ølbloggen monthly Vinmonopolet releases",
-      "type": "olbloggen_vinmonopolet",
+      "id": "monthly-article-source",
+      "name": "Monthly article release source",
+      "type": "rss_feed",
       "enabled": true,
       "intervalMinutes": 43200,
       "scheduleWindow": {
@@ -95,10 +95,8 @@ Recommended first source:
         "startDay": 25,
         "endDay": 5
       },
-      "listingUrl": "https://www.olbloggen.no/category/vinmonopolet-nyheter/",
-      "maxPages": 1,
-      "maxArticles": 6,
-      "titlePrefix": "Ølnyheter på Vinmonopolet"
+      "url": "https://example.com/feed.xml",
+      "maxItems": 20
     }
   ]
 }

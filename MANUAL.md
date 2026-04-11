@@ -65,7 +65,7 @@ Current source types:
 - `rss_feed`
 - `csv_import`
 - `manual_import`
-- `olbloggen_vinmonopolet`
+- site-specific article adapters
 
 All of them produce the same normalized release shape internally.
 
@@ -205,7 +205,7 @@ Supported windows:
 Typical example:
 
 - scheduler wakes hourly
-- Ølbloggen source only runs every 43200 minutes
+- a monthly source only runs every 43200 minutes
 - and only during day 25 to day 5 of the month window
 
 That keeps the service polite and efficient.

@@ -25,13 +25,13 @@ In practice:
 
 ## What This Repo Includes
 
-- multiple source types:
-  - `file_json`
-  - `http_json`
-  - `rss_feed`
-  - `csv_import`
-  - `manual_import`
-  - `olbloggen_vinmonopolet`
+- multiple source categories:
+  - local JSON files
+  - remote JSON feeds
+  - RSS feeds
+  - CSV imports
+  - manual imports
+  - site-specific article adapters
 - per-source intervals and schedule windows
 - admin panel
 - run history
@@ -128,13 +128,13 @@ Each source can define:
 - optional `scheduleWindow`
 - source-specific fields like `url`, `listingUrl`, `filePath`, or manual items
 
-Example monthly Ølbloggen source:
+Example monthly article source:
 
 ```json
 {
-  "id": "olbloggen-monthly",
-  "name": "Ølbloggen monthly Vinmonopolet releases",
-  "type": "olbloggen_vinmonopolet",
+  "id": "monthly-article-source",
+  "name": "Monthly article release source",
+  "type": "rss_feed",
   "enabled": true,
   "intervalMinutes": 43200,
   "scheduleWindow": {
@@ -142,9 +142,8 @@ Example monthly Ølbloggen source:
     "startDay": 25,
     "endDay": 5
   },
-  "listingUrl": "https://www.olbloggen.no/category/vinmonopolet-nyheter/",
-  "maxPages": 1,
-  "maxArticles": 6
+  "url": "https://example.com/feed.xml",
+  "maxItems": 20
 }
 ```
 
