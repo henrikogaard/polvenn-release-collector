@@ -28,7 +28,7 @@
     "build": "rm -rf dist && tsc",
     "start": "node dist/index.js",
     "dev": "tsc --watch",
-    "test": "npm run build && node --test dist/http/*.test.js dist/sources/*.test.js dist/services/*.test.js",
+    "test": "npm run build && node --test dist/config/*.test.js dist/http/*.test.js dist/sources/*.test.js dist/services/*.test.js",
     "prepack": "npm run build"
   },
   "keywords": [

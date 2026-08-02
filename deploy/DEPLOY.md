@@ -112,6 +112,7 @@ Example:
 
 ```bash
 POLVENN_COLLECTOR_PORT=4100
+POLVENN_COLLECTOR_HOST=127.0.0.1
 POLVENN_COLLECTOR_INTERVAL_MINUTES=60
 POLVENN_COLLECTOR_RUN_ON_START=true
 POLVENN_COLLECTOR_PUBLIC_STATUS_PAGE=true
@@ -128,6 +129,7 @@ Recommended:
 
 - use a long random admin token
 - keep the app bound behind the reverse proxy
+- keep `POLVENN_COLLECTOR_HOST=127.0.0.1`; do not expose port 4100 directly
 - only expose the feed publicly
 
 Generate a token:
