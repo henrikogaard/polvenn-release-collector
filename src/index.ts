@@ -1018,8 +1018,8 @@ async function main(): Promise<void> {
     }
   });
 
-  server.listen(env.port, () => {
-    console.error(`Polvenn release collector listening on http://127.0.0.1:${env.port}`);
+  server.listen(env.port, env.host, () => {
+    console.error(`Polvenn release collector listening on http://${env.host}:${env.port}`);
   });
 }
 

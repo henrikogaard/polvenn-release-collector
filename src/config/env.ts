@@ -31,6 +31,7 @@ const dataDir = process.env.POLVENN_COLLECTOR_DATA_DIR
   ?? path.join(os.homedir(), ".polvenn-release-collector");
 
 export const env = {
+  host: process.env.POLVENN_COLLECTOR_HOST?.trim() || "127.0.0.1",
   port: parseInteger(process.env.POLVENN_COLLECTOR_PORT, 4100),
   dataDir,
   dbPath: process.env.POLVENN_COLLECTOR_DB_PATH ?? path.join(dataDir, "collector.db"),
