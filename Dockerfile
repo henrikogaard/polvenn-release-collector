@@ -10,6 +10,10 @@ RUN npm run build && npm prune --omit=dev
 
 FROM node:22-bookworm-slim
 
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y curl \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV NODE_ENV=production
 WORKDIR /app
 
