@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+node_modules
+dist
+*.db
+*.sqlite
+*.sqlite3
+polvenn-release-collector.config.json

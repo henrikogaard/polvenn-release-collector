@@ -21,6 +21,31 @@ You will end up with:
 - collector listening on `127.0.0.1:4100`
 - reverse proxy exposing `https://beer.ogard.cloud`
 
+## Coolify / Docker Deployment
+
+For a Coolify Application backed by this Git repository, select the Dockerfile
+build pack. The repository Dockerfile builds the TypeScript app, keeps only
+production dependencies in the runtime image, and runs the process as UID/GID
+`995:985` to match the existing `polvenn` service account and persisted data.
+
+Configure the application to:
+
+- expose internal port `4100` without publishing a host port directly
+- mount persistent storage at `/var/lib/polvenn-release-collector`
+- set `POLVENN_COLLECTOR_HOST=0.0.0.0` so Coolify's proxy can reach the container
+- set `POLVENN_COLLECTOR_DATA_DIR` and `POLVENN_COLLECTOR_DB_PATH` inside that
+  mount
+- keep secrets in Coolify environment variables, not in the repository or image
+
+When migrating an existing instance, preserve the data directory's ownership
+and modes; the runtime UID/GID must be able to read the config and read/write
+the database files. Keep startup collection and periodic scraping disabled on a
+staged copy until the production cutover, otherwise both old and new instances
+may collect concurrently.
+
+Do not configure a production domain or change DNS until the migrated data,
+health checks, and cutover plan have been verified.
+
 ## 1. Prerequisites On The VPS
 
 You need:
