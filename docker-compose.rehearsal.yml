@@ -1,0 +1,59 @@
+services:
+  storage-init:
+    build: &build
+      context: .
+      dockerfile: Dockerfile
+    user: "0:0"
+    network_mode: none
+    restart: "no"
+    entrypoint:
+      - node
+      - -e
+      - "const fs=require('fs');fs.mkdirSync('/data',{recursive:true});const p='/data/config.json';if(!fs.existsSync(p))fs.writeFileSync(p,JSON.stringify({settings:{webhook:{enabled:false}},sources:[]}));for(const p of ['/data','/data/config.json']){fs.chownSync(p,995,985);fs.chmodSync(p,p==='/data'?0o700:0o600)}"
+    volumes:
+      - rehearsal-data:/data
+    labels:
+      - traefik.enable=false
+    logging: &logging
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+  collector:
+    build: *build
+    restart: unless-stopped
+    depends_on:
+      storage-init:
+        condition: service_completed_successfully
+    command: [sh, -c, 'test -n "$$POLVENN_COLLECTOR_ADMIN_TOKEN" && exec node dist/index.js']
+    environment:
+      POLVENN_COLLECTOR_HOST: 0.0.0.0
+      POLVENN_COLLECTOR_PORT: "4100"
+      POLVENN_COLLECTOR_DATA_DIR: /data
+      POLVENN_COLLECTOR_DB_PATH: /data/collector.db
+      POLVENN_COLLECTOR_SOURCES_PATH: /data/config.json
+      POLVENN_COLLECTOR_RUN_ON_START: "false"
+      POLVENN_COLLECTOR_INTERVAL_MINUTES: "0"
+      POLVENN_COLLECTOR_PUBLIC_STATUS_PAGE: "false"
+      POLVENN_COLLECTOR_WEBHOOK_URL: ""
+      POLVENN_COLLECTOR_ADMIN_TOKEN: ${REHEARSAL_ADMIN_TOKEN:-}
+    volumes:
+      - rehearsal-data:/data
+    networks:
+      - rehearsal
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    healthcheck:
+      test: [CMD, node, -e, 'fetch("http://127.0.0.1:4100/health").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    labels:
+      - traefik.enable=false
+    logging: *logging
+volumes:
+  rehearsal-data:
+networks:
+  rehearsal:
+    internal: true
