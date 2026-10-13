@@ -25,7 +25,7 @@ services:
     depends_on:
       storage-init:
         condition: service_completed_successfully
-    command: [sh, -c, 'test -n "$$POLVENN_COLLECTOR_ADMIN_TOKEN" && exec node dist/index.js']
+    command: ["node", "--input-type=module", "-e", "const token=process.env.POLVENN_COLLECTOR_ADMIN_TOKEN??'';if(token.length!==64||!/^[a-f0-9]+$$/.test(token)){console.error('Invalid rehearsal admin token');process.exit(1)}await import('./dist/index.js')"]
     environment:
       POLVENN_COLLECTOR_HOST: 0.0.0.0
       POLVENN_COLLECTOR_PORT: "4100"

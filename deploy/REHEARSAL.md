@@ -15,7 +15,9 @@ Generate 32 random bytes encoded as64 lowercase hex characters for a new admin
 test token. Save and byte-verify it in 1Password Personal as Document
 `prod01 Beer Collector rehearsal token` before configuration. Set only the
 runtime variable `REHEARSAL_ADMIN_TOKEN`, never a build argument or logged
-value. The runtime command refuses to start without a token. Empty Compose
+value. The runtime command requires exactly64 lowercase hex characters,
+including a raw length check before app import. Empty, whitespace-only,
+padded, malformed or newline-terminated values are rejected. Empty Compose
 build interpolation does not permit an unprotected runtime.
 
 Acceptance checks:
