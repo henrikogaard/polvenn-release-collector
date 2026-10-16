@@ -23,6 +23,10 @@ You will end up with:
 
 ## Coolify / Docker Deployment
 
+For the separate empty-data prod01 migration trial, use the
+[isolated rehearsal procedure](REHEARSAL.md). It does not change production
+domains, data, integrations or deploy triggers.
+
 For a Coolify Application backed by this Git repository, select the Dockerfile
 build pack. The repository Dockerfile builds the TypeScript app, keeps only
 production dependencies in the runtime image, and runs the process as UID/GID
